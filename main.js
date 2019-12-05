@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function(){
 	let alpha, tiltx, tilty;
-	const drawCanvas = () => { };
+	const drawCanvas = () => {
+		
+	};
 
 	const requestDevicePermission = () => {
 		DeviceMotionEvent.requestPermission().then(permissionState => {
@@ -30,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function(){
 				let called = false
 				window.addEventListener('deviceorientation', e => {
 					alpha = e.aplha;
+					if(!called) { alert(alpha);}
 					document.getElementById("rot").innerHTML = alpha.toFixed(3);
-					if(!called) { alert("orientation");}
 					called = true;
 				})
 			} else {
