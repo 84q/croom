@@ -23,8 +23,6 @@ document.addEventListener('DOMContentLoaded', function(){
 			let called = false
 			if (permissionState === 'granted') {
 				window.addEventListener('devicemotion', e => {
-					if(!called) { alert("motion");}
-					called = true;
 					const RAD_TO_DEG = 180 / Math.PI;
 					const acc = e.acceleration;
 					const accg = e.accelerationIncludingGravity;
@@ -46,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function(){
 				let called = false
 				window.addEventListener('deviceorientation', e => {
 					alpha = e.aplha;
-					if(!called) { alert(e.alpha);}
-					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
+					if(!called) { alert("e.alpha : " + e.alpha);}
 					called = true;
+					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 				})
 			} else {
 				// 許可を得られなかった場合の処理
