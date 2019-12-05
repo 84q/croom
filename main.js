@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	const drawCanvas = () => {
 		const canvas = document.getElementById('canvas');
 		const context = canvas.getContext('2d');
-		canvas.clearRect(0, 0, canvas.width, canvas.height);
+		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
 		context.arc(110, 110, 50, 0 * Math.PI / 180, 360 * Math.PI / 180, false );
 
