@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Sensor Test</title>
+		<meta name="viewport" content="width=device-width">
+	</head>
+
+	<body>
+		<h2>向き[deg]</h2>
+		<p>a: <span id="ori-a"></span></p>
+		<p>b: <span id="ori-b"></span></p>
+		<p>g: <span id="ori-g"></span></p>
+
+		<script>
+			window.addEventListener("deviceorientation", function(e){
+				if(e.alpha) {document.getElementById("ori-a").innerHTML = e.alpha.toFixed(3);}
+				if(e.beta)  {document.getElementById("ori-b").innerHTML = e.beta.toFixed(3); }
+				if(e.gamma) {document.getElementById("ori-g").innerHTML = e.gamma.toFixed(3);}
+			});
+		</script>
+	</body>
+</html>
