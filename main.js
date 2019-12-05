@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	const requestDevicePermission = () => {
 		DeviceMotionEvent.requestPermission().then(permissionState => {
-			let called = false
 			if (permissionState === 'granted') {
 				window.addEventListener('devicemotion', e => {
 					const RAD_TO_DEG = 180 / Math.PI;
@@ -43,11 +42,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 		DeviceOrientationEvent.requestPermission().then(permissionState => {
 			if (permissionState === 'granted') {
-				let called = false
 				window.addEventListener('deviceorientation', e => {
-					alpha = e.aplha;
-					if(!called) { alert(" " + e.alpha + " " + alpha);}
-					called = true;
+					alpha = 3.16;
 					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 				})
 			}
