@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function(){
 				let called = false
 				window.addEventListener('deviceorientation', e => {
 					alpha = e.aplha;
-					if(!called) { alert(alpha);}
-					document.getElementById("rot").innerHTML = alpha.toFixed(3);
+					if(!called) { alert(e.alpha);}
+					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 					called = true;
 				})
 			} else {
