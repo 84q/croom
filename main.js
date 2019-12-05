@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-	const alpha, tiltx, tilty;
+	let alpha, tiltx, tilty;
 	const drawCanvas = () => { };
 
 	const requestDevicePermission = () => {
