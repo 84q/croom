@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	const drawCanvas = () => {
 		const canvas = document.getElementById('canvas');
 		const context = canvas.getContext('2d');
+		canvas.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
 		context.arc(110, 110, 50, 0 * Math.PI / 180, 360 * Math.PI / 180, false );
 
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		// 線を描画を実行
 		context.stroke();
 
-		fillText(tiltx.toFixed(6), 10, 10);
+		context.fillText(tiltx ? tiltx.toFixed(6) : "tiltx", 10, 10);
 	};
 
 	const requestDevicePermission = () => {
