@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-	let alpha1, tiltx, tilty;
+	let alpha, tiltx, tilty;
 	const drawCanvas = () => {
 		const canvas = document.getElementById('canvas');
 		const context = canvas.getContext('2d');
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		context.stroke();
 
 		context.fillText(tiltx ? tiltx.toFixed(6) : "tiltx", 10, 10);
+		context.fillText(alpha ? alpha.toFixed(6) : "alpha", 10, 30);
 	};
 
 	const requestDevicePermission = () => {
@@ -37,24 +38,20 @@ document.addEventListener('DOMContentLoaded', function(){
 					document.getElementById("tiltx").innerHTML = (tiltx * RAD_TO_DEG).toFixed(6);
 					document.getElementById("tilty").innerHTML = (tilty * RAD_TO_DEG).toFixed(6);
 				})
-			} else {
-				// 許可を得られなかった場合の処理
 			}
-		}).catch(console.error) // https通信でない場合などで許可を取得できなかった場合
+		}).catch(console.error);
 
 		DeviceOrientationEvent.requestPermission().then(permissionState => {
 			if (permissionState === 'granted') {
 				let called = false
 				window.addEventListener('deviceorientation', e => {
-					alpha1 = e.aplha;
-					if(!called) { alert(" " + e.alpha + " " + alpha1);}
+					alpha = e.aplha;
+					if(!called) { alert(" " + e.alpha + " " + alpha);}
 					called = true;
 					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 				})
-			} else {
-				// 許可を得られなかった場合の処理
 			}
-		}).catch(console.error) // https通信でない場合などで許可を取得できなかった場合
+		}).catch(console.error);
 	}
 
 	const startButton = document.getElementById("permission-button")
