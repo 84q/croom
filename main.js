@@ -1,21 +1,24 @@
 document.addEventListener('DOMContentLoaded', function(){
 	const alpha, tiltx, tilty;
-	const drawCanvas = () => {
-	};
+	const drawCanvas = () => { };
+
 	const requestDevicePermission = () => {
 		DeviceMotionEvent.requestPermission().then(permissionState => {
+			let called = false
 			if (permissionState === 'granted') {
 				window.addEventListener('devicemotion', e => {
+					if(!called) { alert(motion);}
+					called = true;
 					const RAD_TO_DEG = 180 / Math.PI;
 					const acc = e.acceleration;
 					const accg = e.accelerationIncludingGravity;
 					const x = accg.x - acc.x;
 					const y = accg.y - acc.y;
 					const z = accg.z - acc.z;
-					tiltx = Math.atan(x/z) * RAD_TO_DEG;
-					tilty = Math.atan(y/z) * RAD_TO_DEG;
-					document.getElementById("tiltx").innerHTML = tiltx.toFixed(6);
-					document.getElementById("tilty").innerHTML = tilty.toFixed(6);
+					tiltx = Math.atan(x/z);
+					tilty = Math.atan(y/z);
+					document.getElementById("tiltx").innerHTML = (tiltx * RAD_TO_DEG).toFixed(6);
+					document.getElementById("tilty").innerHTML = (tilty * RAD_TO_DEG).toFixed(6);
 				})
 			} else {
 				// 許可を得られなかった場合の処理
@@ -24,7 +27,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
 		DeviceOrientationEvent.requestPermission().then(permissionState => {
 			if (permissionState === 'granted') {
+				let called = false
 				window.addEventListener('deviceorientation', e => {
+					if(!called) { alert(motion);}
+					called = true;
 					alpha = e.aplha;
 					document.getElementById("ori-a").innerHTML = alpha.toFixed(3);
 				})
