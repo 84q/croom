@@ -14,9 +14,6 @@ document.addEventListener('DOMContentLoaded', function(){
 					const z = accg.z - acc.z;
 					tiltx = Math.atan(x/z) * RAD_TO_DEG;
 					tilty = Math.atan(y/z) * RAD_TO_DEG;
-					document.getElementById("acc-x").innerHTML = x.toFixed(6);
-					document.getElementById("acc-y").innerHTML = y.toFixed(6);
-					document.getElementById("acc-z").innerHTML = z.toFixed(6);
 					document.getElementById("tiltx").innerHTML = tiltx.toFixed(6);
 					document.getElementById("tilty").innerHTML = tilty.toFixed(6);
 				})
