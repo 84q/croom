@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
 					alpha = e.aplha;
 					if(!called) { alert("e.alpha : " + e.alpha);}
 					called = true;
-					document.getElementById("rot").innerHTML = alpha.toFixed(3);
+					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 				})
 			} else {
 				// 許可を得られなかった場合の処理
