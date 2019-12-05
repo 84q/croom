@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			let called = false
 			if (permissionState === 'granted') {
 				window.addEventListener('devicemotion', e => {
-					if(!called) { alert(motion);}
+					if(!called) { alert("motion");}
 					called = true;
 					const RAD_TO_DEG = 180 / Math.PI;
 					const acc = e.acceleration;
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			if (permissionState === 'granted') {
 				let called = false
 				window.addEventListener('deviceorientation', e => {
-					if(!called) { alert(motion);}
+					if(!called) { alert("orientation");}
 					called = true;
 					alpha = e.aplha;
 					document.getElementById("ori-a").innerHTML = alpha.toFixed(3);
@@ -42,4 +42,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	const startButton = document.getElementById("permission-button")
 	startButton.addEventListener('click', requestDevicePermission, false)
+
+	alert("start");
 });
