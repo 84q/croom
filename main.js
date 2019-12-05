@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function(){
 					document.getElementById("acc-y").innerHTML = acc.y.toFixed(3);
 					document.getElementById("acc-z").innerHTML = acc.z.toFixed(3);
 					const g = ((acc.x ** 2) + (acc.y ** 2) + (acc.z ** 2)) ** 0.5;
-					alert(g);
 					document.getElementById("grav" ).innerHTML = g.toFixed(3);
 				})
 			} else {
