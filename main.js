@@ -1,7 +1,21 @@
 document.addEventListener('DOMContentLoaded', function(){
 	let alpha, tiltx, tilty;
 	const drawCanvas = () => {
-		
+		const canvas = document.getElementById('canvas');
+		const context = element.getContext('2d');
+		context.beginPath();
+		context.arc(110, 110, 50, 0 * Math.PI / 180, 360 * Math.PI / 180, false );
+
+		// 塗りつぶしの色
+		context.fillStyle = "rgba(255,0,0,0.8)";
+		// // 塗りつぶしを実行
+		context.fill() ;
+		// 線の色
+		context.strokeStyle = "purple";
+		// 線の太さ
+		context.lineWidth = 8;
+		// 線を描画を実行
+		context.stroke();
 	};
 
 	const requestDevicePermission = () => {
