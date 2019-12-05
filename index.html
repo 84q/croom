@@ -7,17 +7,35 @@
 	</head>
 
 	<body>
-		<h2>向き[deg]</h2>
+		<button id="start-button">Permission</button>
+		<h2>deg</h2>
 		<p>a: <span id="ori-a"></span></p>
 		<p>b: <span id="ori-b"></span></p>
 		<p>g: <span id="ori-g"></span></p>
 
 		<script>
-			window.addEventListener("deviceorientation", function(e){
-				if(e.alpha) {document.getElementById("ori-a").innerHTML = e.alpha.toFixed(3);}
-				if(e.beta)  {document.getElementById("ori-b").innerHTML = e.beta.toFixed(3); }
-				if(e.gamma) {document.getElementById("ori-g").innerHTML = e.gamma.toFixed(3);}
-			});
+			const requestDeviceMotionPermission = () => {
+				if ( DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
+					DeviceMotionEvent.requestPermission().then(permissionState => {
+						if (permissionState === 'granted') {
+							window.addEventListener('devicemotion', e => {
+								document.getElementById("ori-a").innerHTML = e.alpha.toFixed(3);
+								document.getElementById("ori-b").innerHTML = e.beta.toFixed(3);
+								document.getElementById("ori-g").innerHTML = e.gamma.toFixed(3);
+							})
+						} else {
+							// 許可を得られなかった場合の処理
+						}
+					})
+						.catch(console.error) // https通信でない場合などで許可を取得できなかった場合
+				} else {
+					// 上記以外のブラウザ
+				}
+			}
+
+			// ボタンクリックでrequestDeviceMotionPermission実行
+			const startButton = document.getElementById("start-button")
+			startButton.addEventListener('click', requestDeviceMotionPermission, false)
 		</script>
 	</body>
 </html>
