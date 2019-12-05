@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function(){
 					document.getElementById("acc-x").innerHTML = (accg.x - acc.x).toFixed(6);
 					document.getElementById("acc-y").innerHTML = (accg.y - acc.y).toFixed(6);
 					document.getElementById("acc-z").innerHTML = (accg.z - acc.z).toFixed(6);
-					const gm = (((accg.x - acc.x) ** 2) + ((accg.y - acc.y) ** 2) + ((accg.z - acc.z) ** 2)) ** 0.5;
-					document.getElementById("grav" ).innerHTML = gm.toFixed(6);
+					const g = (((accg.x - acc.x) ** 2) + ((accg.y - acc.y) ** 2) + ((accg.z - acc.z) ** 2)) ** 0.5;
+					document.getElementById("grav" ).innerHTML = g.toFixed(6);
 				})
 			} else {
 				// 許可を得られなかった場合の処理
@@ -32,6 +32,6 @@ document.addEventListener('DOMContentLoaded', function(){
 	const requestDeviceOrientationPermission = () => {
 	}
 
-	const startButton = document.getElementById("start-button")
+	const startButton = document.getElementById("permission-button")
 	startButton.addEventListener('click', requestDevicePermission, false)
 });
