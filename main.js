@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function(){
 				let called = false
 				window.addEventListener('deviceorientation', e => {
 					alpha = e.aplha;
-					if(!called) { alert("e.alpha : " + e.alpha);}
+					if(!called) { alert("e.alpha : " + e.alpha + " " + alpha);}
 					called = true;
 					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 				})
