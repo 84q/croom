@@ -3,18 +3,12 @@ document.addEventListener('DOMContentLoaded', function(){
 		DeviceMotionEvent.requestPermission().then(permissionState => {
 			if (permissionState === 'granted') {
 				window.addEventListener('devicemotion', e => {
-					var acc = e.acceleration;
-					var accG = e.accelerationIncludingGravity;
-					var rot = e.rotationRate;
+					const acc = e.accelerationIncludingGravity;
 					document.getElementById("acc-x").innerHTML = acc.x.toFixed(3);
 					document.getElementById("acc-y").innerHTML = acc.y.toFixed(3);
 					document.getElementById("acc-z").innerHTML = acc.z.toFixed(3);
-					document.getElementById("accG-x").innerHTML = accG.x.toFixed(3);
-					document.getElementById("accG-y").innerHTML = accG.y.toFixed(3);
-					document.getElementById("accG-z").innerHTML = accG.z.toFixed(3);
-					document.getElementById("rot-a").innerHTML = rot.alpha.toFixed(3);
-					document.getElementById("rot-b").innerHTML = rot.beta.toFixed(3);
-					document.getElementById("rot-g").innerHTML = rot.gamma.toFixed(3);
+					const g = ((acc.x ** 2) + (acc.y ** 2) + (acc.z ** 2)) ** 0.5;
+					document.getElementById("grav" ).innerHTML = g.toFixed(3);
 				})
 			} else {
 				// 許可を得られなかった場合の処理
