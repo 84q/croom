@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function(){
 	const alpha, tiltx, tilty;
-	const drawCanvas
+	const drawCanvas = () => {
+	};
 	const requestDevicePermission = () => {
 		DeviceMotionEvent.requestPermission().then(permissionState => {
 			if (permissionState === 'granted') {
