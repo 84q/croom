@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-	let alpha, tiltx, tilty;
+	let alpha1, tiltx, tilty;
 	const drawCanvas = () => {
 		const canvas = document.getElementById('canvas');
 		const context = canvas.getContext('2d');
@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function(){
 			if (permissionState === 'granted') {
 				let called = false
 				window.addEventListener('deviceorientation', e => {
-					alpha = e.aplha;
-					if(!called) { alert("e.alpha : " + e.alpha + " " + alpha);}
+					alpha1 = e.aplha;
+					if(!called) { alert(" " + e.alpha + " " + alpha1);}
 					called = true;
 					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
 				})
