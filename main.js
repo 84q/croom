@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function(){
 			if (permissionState === 'granted') {
 				let called = false
 				window.addEventListener('deviceorientation', e => {
+					alpha = e.aplha;
+					document.getElementById("rot").innerHTML = alpha.toFixed(3);
 					if(!called) { alert("orientation");}
 					called = true;
-					alpha = e.aplha;
-					document.getElementById("ori-a").innerHTML = alpha.toFixed(3);
 				})
 			} else {
 				// 許可を得られなかった場合の処理
@@ -42,6 +42,4 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	const startButton = document.getElementById("permission-button")
 	startButton.addEventListener('click', requestDevicePermission, false)
-
-	alert("start");
 });
