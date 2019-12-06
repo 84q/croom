@@ -1,83 +1,141 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-	const RAD_TO_DEG = 180 / Math.PI;
-	let alpha = 0, tiltx = 0, tilty = 0;
-	const drawCanvas = () => {
-		const canvas = document.getElementById('canvas');
-		const context = canvas.getContext('2d');
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		context.beginPath();
+class Drawer
+{
+	constructor() {
+		this.canvas = document.getElementById('canvas')
+		this.context = canvas.getContext('2d');
+	}
 
-		const alpha_tmp = (alpha < 180) ? alpha : (360 - alpha);
+	draw(rotation) {
+		const RAD_TO_DEG = 180 / Math.PI;
+		const alpha_tmp = (rotation < 180) ? rotation: (360 - rotation);
 		const arc_start = -90 / RAD_TO_DEG;
 		const arc_end = (alpha_tmp - 90) / RAD_TO_DEG;
-		context.arc(110, 110, 100, arc_start, arc_end, false);
+
+		this.context.clearRect(0, 0, canvas.width, canvas.height);
+		this.context.beginPath();
+
+		this.context.arc(110, 110, 100, arc_start, arc_end, false);
 
 		// 塗りつぶしの色
-		context.fillStyle = "rgba(0,0,0,0)";
-		// // 塗りつぶしを実行
-		context.fill();
+		this.context.fillStyle = "rgba(0,0,0,0)";
+		// 塗りつぶしを実行
+		this.context.fill();
 		// 線の色
-		context.strokeStyle = "purple";
+		this.context.strokeStyle = "purple";
 		// 線の太さ
-		context.lineWidth = 8;
+		this.context.lineWidth = 8;
 		// 線を描画を実行
-		context.stroke();
+		this.context.stroke();
+	}
+}
 
-		//context.fillText(tiltx ? tiltx.toFixed(6) : "tiltx", 10, 10);
-		//context.fillText(alpha ? alpha.toFixed(6) : "alpha", 10, 30);
-	};
+class OrientationEvent
+{
+	constructor()
+	{
+		this.rotation = 1;
+	}
 
-	const requestDevicePermission = (e) => {
+	addEventListener()
+	{
+		window.addEventListener('deviceorientation', (e) => {
+			if(e.alpha)
+			{
+				this.rotation = e.alpha;
+			}
+			document.getElementById("rot").innerHTML = this.rotation;
+		});
+	}
 
-		const addOrientationEvent = () => {
-			window.addEventListener('deviceorientation', e => {
-				alpha = (e.alpha ? e.alpha : 0);
-				document.getElementById("rot").innerHTML = alpha
-			})
-		};
+	isPermissionRequired()
+	{
+		return ((typeof DeviceOrientationEvent.requestPermission) === 'function')
+	}
 
-		const addMotionEvent = () => {
-			window.addEventListener('devicemotion', e => {
-				const x = e.accelerationIncludingGravity.x - e.acceleration.x;
-				const y = e.accelerationIncludingGravity.y - e.acceleration.y;
-				const z = e.accelerationIncludingGravity.z - e.acceleration.z;
-				tiltx = Math.atan(x/z);
-				tilty = Math.atan(y/z);
-				document.getElementById("tiltx").innerHTML = (tiltx * RAD_TO_DEG)
-				document.getElementById("tilty").innerHTML = (tilty * RAD_TO_DEG)
-			})
-		};
-
-		if(typeof DeviceMotionEvent.requestPermission === 'function')
-		{
-			DeviceMotionEvent.requestPermission()
-				.then(state => { if (state === 'granted') { addMotionEvent(); }})
-				.catch(console.error);
-		}
-		else
-		{
-			addMotionEvent();
-		}
-
-		if(typeof DeviceOrientationEvent.requestPermission === 'function')
+	addEvent()
+	{
+		if(this.isPermissionRequired())
 		{
 			DeviceOrientationEvent.requestPermission()
-				.then(state => { if (state === 'granted') { addOrientationEvent(); } })
+				.then((state) => {
+					if (state === 'granted') { this.addEventListener(); }
+				})
 				.catch(console.error);
 		}
 		else
 		{
-			addOrientationEvent();
+			this.addEventListener();
 		}
+	}
+}
+
+class MotionEvent
+{
+	constructor()
+	{
+		this.tiltx = 0;
+		this.tilty = 0;
+	}
+
+	addEventListener()
+	{
+		window.addEventListener('devicemotion', (e) => {
+			console.log(e);
+			const RAD_TO_DEG = 180 / Math.PI;
+			const x = e.accelerationIncludingGravity.x - e.acceleration.x;
+			const y = e.accelerationIncludingGravity.y - e.acceleration.y;
+			const z = e.accelerationIncludingGravity.z - e.acceleration.z;
+			this.tiltx = Math.atan(x/z);
+			this.tilty = Math.atan(y/z);
+			document.getElementById("tiltx").innerHTML = (this.tiltx * RAD_TO_DEG)
+			document.getElementById("tilty").innerHTML = (this.tilty * RAD_TO_DEG)
+		});
+	}
+
+	listener(e)
+	{
+	}
+
+	isPermissionRequired()
+	{
+		return ((typeof DeviceMotionEvent.requestPermission) === 'function')
+	}
+
+	addEvent()
+	{
+		if(this.isPermissionRequired())
+		{
+			DeviceMotionEvent.requestPermission()
+				.then((state) => {
+					if (state === 'granted') { this.addEventListener(); }
+				})
+				.catch(console.error);
+		}
+		else
+		{
+			this.addEventListener();
+		}
+	}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	const RAD_TO_DEG = 180 / Math.PI;
+	const drawer = new Drawer();
+	const orientationEvent = new OrientationEvent();
+	const motionEvent = new MotionEvent();
+
+	const start = (e) => {
+		orientationEvent.addEvent();
+		motionEvent.addEvent();
 		// ボタンは一度押されたら無効にする
 		e.target.disabled = true;
 	}
 
 	const startButton = document.getElementById("permission-button")
-	startButton.addEventListener('click', requestDevicePermission, false)
+	startButton.addEventListener('click', start, false)
 
-	const id = setInterval( drawCanvas, 100 );
+	const id = setInterval( () => {drawer.draw(orientationEvent.rotation); }, 100 );
 
-	window.addEventListener('click', e => { alpha += 10; });
+	window.addEventListener('click', e => { orientationEvent.rotation += 10;});
 });
