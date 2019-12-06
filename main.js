@@ -34,7 +34,9 @@ class OrientationEvent
 {
 	constructor()
 	{
-		this.rotation = 1;
+		this.rotation = 0;
+		this.rotation_pre = 0;
+		this.orientation = 0;
 	}
 
 	addEventListener()
@@ -42,7 +44,14 @@ class OrientationEvent
 		window.addEventListener('deviceorientation', (e) => {
 			if(e.alpha)
 			{
-				this.rotation = e.alpha;
+				if(e.alpha < 180)
+				{
+					this.rotation = e.alpha - 360;
+				}
+				else
+				{
+					this.rotation = e.alpha;
+				}
 			}
 			document.getElementById("rot").innerHTML = this.rotation;
 		});
@@ -91,10 +100,6 @@ class MotionEvent
 			document.getElementById("tiltx").innerHTML = (this.tiltx * RAD_TO_DEG)
 			document.getElementById("tilty").innerHTML = (this.tilty * RAD_TO_DEG)
 		});
-	}
-
-	listener(e)
-	{
 	}
 
 	isPermissionRequired()
