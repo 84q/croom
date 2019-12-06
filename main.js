@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function(){
 	const RAD_TO_DEG = 180 / Math.PI;
-	let alpha = 180, tiltx, tilty = 0;
+	let alpha = 0, tiltx, tilty = 0;
 	const drawCanvas = () => {
 		const canvas = document.getElementById('canvas');
 		const context = canvas.getContext('2d');
@@ -74,5 +74,9 @@ document.addEventListener('DOMContentLoaded', function(){
 	const startButton = document.getElementById("permission-button")
 	startButton.addEventListener('click', requestDevicePermission, false)
 
-	const id = setInterval( drawCanvas, 1000 );
+	const id = setInterval( drawCanvas, 100 );
+
+	window.addEventListener('click', e => {
+		alpha += 10;
+	});
 });
