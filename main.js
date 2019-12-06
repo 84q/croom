@@ -1,13 +1,17 @@
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', () => {
 	const RAD_TO_DEG = 180 / Math.PI;
-	let alpha = 0, tiltx, tilty = 0;
+	let alpha = 0, tiltx = 0, tilty = 0;
 	const drawCanvas = () => {
 		const canvas = document.getElementById('canvas');
 		const context = canvas.getContext('2d');
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
-		context.arc(110, 110, 100, -90 / RAD_TO_DEG, (alpha - 90) / RAD_TO_DEG, false );
+
+		const alpha_tmp = (alpha < 180) ? alpha : (360 - alpha);
+		const arc_start = -90 / RAD_TO_DEG;
+		const arc_end = (alpha_tmp - 90) / RAD_TO_DEG;
+		context.arc(110, 110, 100, arc_start, arc_end, false);
 
 		// 塗りつぶしの色
 		context.fillStyle = "rgba(0,0,0,0)";
@@ -24,15 +28,12 @@ document.addEventListener('DOMContentLoaded', function(){
 		//context.fillText(alpha ? alpha.toFixed(6) : "alpha", 10, 30);
 	};
 
-	const requestDevicePermission = () => {
+	const requestDevicePermission = (e) => {
 
 		const addOrientationEvent = () => {
 			window.addEventListener('deviceorientation', e => {
-				if(e.alpha)
-				{
-					alpha = e.alpha;
-					document.getElementById("rot").innerHTML = alpha
-				}
+				alpha = (e.alpha ? e.alpha : 0);
+				document.getElementById("rot").innerHTML = alpha
 			})
 		};
 
@@ -69,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		{
 			addOrientationEvent();
 		}
+		// ボタンは一度押されたら無効にする
+		e.target.disabled = true;
 	}
 
 	const startButton = document.getElementById("permission-button")
@@ -76,7 +79,5 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	const id = setInterval( drawCanvas, 100 );
 
-	window.addEventListener('click', e => {
-		alpha += 10;
-	});
+	window.addEventListener('click', e => { alpha += 10; });
 });
