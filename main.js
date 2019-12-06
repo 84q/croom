@@ -44,7 +44,7 @@ class OrientationEvent
 		window.addEventListener('deviceorientation', (e) => {
 			if(e.alpha)
 			{
-				if(e.alpha < 180)
+				if(e.alpha >= 180)
 				{
 					this.rotation = e.alpha - 360;
 				}
