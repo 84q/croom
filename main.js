@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function(){
 	let alpha, tiltx, tilty;
 	const drawCanvas = () => {
@@ -23,31 +24,50 @@ document.addEventListener('DOMContentLoaded', function(){
 	};
 
 	const requestDevicePermission = () => {
-		DeviceMotionEvent.requestPermission().then(permissionState => {
-			if (permissionState === 'granted') {
-				window.addEventListener('devicemotion', e => {
-					const RAD_TO_DEG = 180 / Math.PI;
-					const acc = e.acceleration;
-					const accg = e.accelerationIncludingGravity;
-					const x = accg.x - acc.x;
-					const y = accg.y - acc.y;
-					const z = accg.z - acc.z;
-					tiltx = Math.atan(x/z);
-					tilty = Math.atan(y/z);
-					document.getElementById("tiltx").innerHTML = (tiltx * RAD_TO_DEG).toFixed(6);
-					document.getElementById("tilty").innerHTML = (tilty * RAD_TO_DEG).toFixed(6);
-				})
-			}
-		}).catch(console.error);
 
-		DeviceOrientationEvent.requestPermission().then(permissionState => {
-			if (permissionState === 'granted') {
-				window.addEventListener('deviceorientation', e => {
-					alpha = 3.16;
-					document.getElementById("rot").innerHTML = e.alpha.toFixed(3);
-				})
-			}
-		}).catch(console.error);
+		const addOrientationEvent = () => {
+			window.addEventListener('deviceorientation', e => {
+				alpha = 3.16;
+				document.getElementById("rot").innerHTML = alpha.toFixed(3);
+			})
+		};
+
+		const addMotionEvent = () => {
+			window.addEventListener('devicemotion', e => {
+				const RAD_TO_DEG = 180 / Math.PI;
+				const acc = e.acceleration;
+				const accg = e.accelerationIncludingGravity;
+				const x = accg.x - acc.x;
+				const y = accg.y - acc.y;
+				const z = accg.z - acc.z;
+				tiltx = Math.atan(x/z);
+				tilty = Math.atan(y/z);
+				document.getElementById("tiltx").innerHTML = (tiltx * RAD_TO_DEG).toFixed(6);
+				document.getElementById("tilty").innerHTML = (tilty * RAD_TO_DEG).toFixed(6);
+			})
+		};
+
+		if(typeof DeviceMotionEvent.requestPermission === 'function')
+		{
+			DeviceMotionEvent.requestPermission()
+				.then(state => { if (state === 'granted') { addMotionEvent(); }})
+				.catch(console.error);
+		}
+		else
+		{
+			addMotionEvent();
+		}
+
+		if(typeof DeviceOrientationEvent.requestPermission === 'function')
+		{
+			DeviceOrientationEvent.requestPermission()
+				.then(state => { if (state === 'granted') { addOrientationEvent(); } })
+				.catch(console.error);
+		}
+		else
+		{
+			addOrientationEvent();
+		}
 	}
 
 	const startButton = document.getElementById("permission-button")
