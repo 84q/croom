@@ -27,19 +27,20 @@ document.addEventListener('DOMContentLoaded', function(){
 
 		const addOrientationEvent = () => {
 			window.addEventListener('deviceorientation', e => {
-				alpha = 3.16;
-				document.getElementById("rot").innerHTML = alpha.toFixed(3);
+				alpha = e.alpha;
+				if(e.alpha)
+				{
+					document.getElementById("rot").innerHTML = alpha.toFixed(3);
+				}
 			})
 		};
 
 		const addMotionEvent = () => {
 			window.addEventListener('devicemotion', e => {
 				const RAD_TO_DEG = 180 / Math.PI;
-				const acc = e.acceleration;
-				const accg = e.accelerationIncludingGravity;
-				const x = accg.x - acc.x;
-				const y = accg.y - acc.y;
-				const z = accg.z - acc.z;
+				const x = e.accelerationIncludingGravity.x - e.acceleration.x;
+				const y = e.accelerationIncludingGravity.y - e.acceleration.y;
+				const z = e.accelerationIncludingGravity.z - e.acceleration.z;
 				tiltx = Math.atan(x/z);
 				tilty = Math.atan(y/z);
 				document.getElementById("tiltx").innerHTML = (tiltx * RAD_TO_DEG).toFixed(6);
