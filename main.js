@@ -63,7 +63,7 @@ class OrientationEvent
 	addEventListener()
 	{
 		window.addEventListener('deviceorientation', (e) => {
-			if(e.alpha) { e.alpha = 0; }
+			if(!e.alpha) { e.alpha = 0; }
 			e.alpha += this.correction;
 
 			const diff = Math.abs(e.alpha) - Math.abs(this.alpha_pre);
