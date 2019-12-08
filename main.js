@@ -1,21 +1,34 @@
 
 class Drawer
 {
-	constructor() {
+	constructor()
+	{
 		this.canvas = document.getElementById('canvas')
 		this.context = canvas.getContext('2d');
 	}
 
-	draw(rotation) {
+	draw(rotation, ng)
+	{
 		const RAD_TO_DEG = 180 / Math.PI;
-		const alpha_tmp = (rotation < 180) ? rotation: (360 - rotation);
-		const arc_start = -90 / RAD_TO_DEG;
-		const arc_end = (alpha_tmp - 90) / RAD_TO_DEG;
+		let arc_start, arc_end;
+		if(rotation < 0)
+		{
+			arc_start = rotation - 90;
+			arc_end = -90;
+		}
+		else
+		{
+			arc_start = -90;
+			arc_end = rotation - 90;
+		}
+
+		document.getElementById("start").innerHTML = arc_start;
+		document.getElementById("end").innerHTML = arc_end;
 
 		this.context.clearRect(0, 0, canvas.width, canvas.height);
 		this.context.beginPath();
 
-		this.context.arc(110, 110, 100, arc_start, arc_end, false);
+		this.context.arc(110, 110, 100, arc_start/RAD_TO_DEG, arc_end/RAD_TO_DEG, false);
 
 		// 塗りつぶしの色
 		this.context.fillStyle = "rgba(0,0,0,0)";
@@ -27,6 +40,13 @@ class Drawer
 		this.context.lineWidth = 8;
 		// 線を描画を実行
 		this.context.stroke();
+
+
+		this.context.fillStyle = "blue";
+		this.context.font = "30px 'ＭＳ ゴシック'";
+		this.context.textAlign = "left";
+		this.context.textBaseline = "top";
+		this.context.fillText(ng, 10, 10);
 	}
 }
 
@@ -36,7 +56,7 @@ class OrientationEvent
 	{
 		this.rotation = 0;
 		this.rotation_pre = 0;
-		this.orientation = 0;
+		this.ng_num = 0;
 	}
 
 	addEventListener()
@@ -44,15 +64,26 @@ class OrientationEvent
 		window.addEventListener('deviceorientation', (e) => {
 			if(e.alpha)
 			{
-				if(e.alpha >= 180)
-				{
-					this.rotation = e.alpha - 360;
-				}
-				else
-				{
-					this.rotation = e.alpha;
-				}
 			}
+
+			const diff = Math.abs(this.rotation) - Math.abs(this.rotation_pre);
+			if(Math.abs(diff) > 10)
+			{
+				this.ng_num += 1;
+				this.ng = true;
+				this.correction += diff;
+			}
+			this.rotation_pre = this.rotation;
+
+			if(e.alpha >= 180)
+			{
+				this.rotation = - (e.alpha - 360);
+			}
+			else
+			{
+				this.rotation = - e.alpha;
+			}
+
 			document.getElementById("rot").innerHTML = this.rotation;
 		});
 	}
@@ -90,7 +121,7 @@ class MotionEvent
 	addEventListener()
 	{
 		window.addEventListener('devicemotion', (e) => {
-			console.log(e);
+			//console.log(e);
 			const RAD_TO_DEG = 180 / Math.PI;
 			const x = e.accelerationIncludingGravity.x - e.acceleration.x;
 			const y = e.accelerationIncludingGravity.y - e.acceleration.y;
@@ -140,7 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	const startButton = document.getElementById("permission-button")
 	startButton.addEventListener('click', start, false)
 
-	const id = setInterval( () => {drawer.draw(orientationEvent.rotation); }, 100 );
+	const id = setInterval( () => {drawer.draw(orientationEvent.rotation, orientationEvent.ng_num); }, 100 );
 
-	window.addEventListener('click', e => { orientationEvent.rotation += 10;});
+	window.addEventListener('click', e => {
+		orientationEvent.rotation += 10;
+		document.getElementById("rot").innerHTML = orientationEvent.rotation;
+	});
 });
+
