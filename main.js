@@ -55,29 +55,33 @@ class OrientationEvent
 	constructor()
 	{
 		this.rotation = 0;
-		this.rotation_pre = 0;
+		this.alpha_pre = 0;
 		this.ng_num = 0;
+		this.correction = 0;
 	}
 
 	addEventListener()
 	{
 		window.addEventListener('deviceorientation', (e) => {
-			if(e.alpha)
-			{
-			}
+			if(e.alpha) { e.alpha = 0; }
+			e.alpha += this.correction;
 
-			const diff = Math.abs(this.rotation) - Math.abs(this.rotation_pre);
+			const diff = Math.abs(e.alpha) - Math.abs(this.alpha_pre);
 			if(Math.abs(diff) > 10)
 			{
 				this.ng_num += 1;
-				this.ng = true;
 				this.correction += diff;
+				e.alpha += diff;
+				document.getElementById("corr").innerHTML = this.correction;
+				document.getElementById("before").innerHTML = this.alpha_pre;
+				document.getElementById("after").innerHTML = e.alpha;
 			}
-			this.rotation_pre = this.rotation;
+
+			this.alpha_pre = e.alhpa;
 
 			if(e.alpha >= 180)
 			{
-				this.rotation = - (e.alpha - 360);
+				this.rotation = 360 - e.alpha;
 			}
 			else
 			{
