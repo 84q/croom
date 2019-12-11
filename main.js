@@ -167,17 +167,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	const orientationEvent = new OrientationEvent();
 	const motionEvent = new MotionEvent();
 
-	const start = (e) => {
+	const start_measuring = (e) => {
 		orientationEvent.addEvent();
 		motionEvent.addEvent();
 		// ボタンは一度押されたら無効にする
 		e.target.disabled = true;
 		document.getElementById("start-button").disabled = true;
 		document.getElementById("end-button").disabled = false;
-	}
+	};
 
-	const startButton = document.getElementById("start-button")
-	startButton.addEventListener('click', start, false)
+	const stop_measuring = (e) => {
+	};
+
+	document.getElementById("start-button").addEventListener('click', start_measuring, false)
+	document.getElementById("stop-button").addEventListener('click', stop_measuring, false)
 
 	const id = setInterval( () => {drawer.draw(orientationEvent.rotation, orientationEvent.ng_num); }, 100 );
 
