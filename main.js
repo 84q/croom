@@ -167,6 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const orientationEvent = new OrientationEvent();
 	const motionEvent = new MotionEvent();
 
+	let start_rot, stop_rot;
+	let start_tiltx, stop_tiltx;
+	let start_tilty, stop_tilty;
+
 	const start_measuring = (e) => {
 		orientationEvent.addEvent();
 		motionEvent.addEvent();
@@ -175,15 +179,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById("start-button").disabled = "true";
 
 		setTimeout(() => {
-			const rot = orientationEvent.rotation;
-			const tiltx = motionEvent.tiltx;
-			const tilty = motionEvent.tilty;
-			alert(" " + rot + "\n" + tiltx + "\n" + tilty);
+			start_rot = orientationEvent.rotation;
+			start_tiltx = motionEvent.tiltx;
+			start_tilty = motionEvent.tilty;
 			document.getElementById("stop-button").disabled = false;
 		}, 1000);
 	};
 
 	const stop_measuring = (e) => {
+		stop_rot = orientationEvent.rotation;
+		stop_tiltx = motionEvent.tiltx;
+		stop_tilty = motionEvent.tilty;
+		const rot = Math.abs(stop_rot - start_rot);
+		const tiltx = (start_tiltx + stop_tiltx) / 2;
+		const tilty = (start_tilty + stop_tilty) / 2;
+		alert(" " + rot + "\n" + tiltx + "\n" + tilty);
 	};
 
 	document.getElementById("start-button").addEventListener('click', start_measuring, false)
