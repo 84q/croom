@@ -175,7 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById("start-button").disabled = "true";
 
 		setTimeout(() => {
-			document.getElementById("end-button").disabled = false;
+			const rot = orientationEvent.rotation;
+			const tiltx = motionEvent.tiltx;
+			const tilty = motionEvent.tilty;
+			alert(" " + rot + "\n" + tiltx + "\n" + tilty);
+			document.getElementById("stop-button").disabled = false;
 		}, 1000);
 	};
 
