@@ -173,10 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		// ボタンは一度押されたら無効にする
 		e.target.disabled = true;
 		document.getElementById("start-button").disabled = "true";
-		document.getElementById("end-button").disabled = "";
 
 		setTimeout(() => {
 			alert("1秒");
+			document.getElementById("end-button").disabled = "";
 		}, 1000);
 	};
 
