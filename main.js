@@ -67,20 +67,19 @@ class OrientationEvent
 			this.n += 1;
 			document.getElementById("num").innerHTML = this.n;
 			if(!e.alpha) { e.alpha = 0; }
-			e.alpha += this.correction;
 
-			const diff = Math.abs(e.alpha) - Math.abs(this.alpha_pre);
-			if(Math.abs(diff) > 10)
-			{
-				this.ng_num += 1;
-				this.correction += diff;
-				e.alpha += diff;
-				document.getElementById("corr").innerHTML = this.correction;
-				document.getElementById("before").innerHTML = this.alpha_pre;
-				document.getElementById("after").innerHTML = e.alpha;
-			}
-
-			this.alpha_pre = e.alhpa;
+			//e.alpha += this.correction;
+			//const diff = Math.abs(e.alpha) - Math.abs(this.alpha_pre);
+			//if(Math.abs(diff) > 10)
+			//{
+			//	this.ng_num += 1;
+			//	this.correction += diff;
+			//	e.alpha += diff;
+			//	document.getElementById("corr").innerHTML = this.correction;
+			//	document.getElementById("before").innerHTML = this.alpha_pre;
+			//	document.getElementById("after").innerHTML = e.alpha;
+			//}
+			//this.alpha_pre = e.alhpa;
 
 			if(e.alpha >= 180)
 			{
