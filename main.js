@@ -174,6 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		e.target.disabled = true;
 		document.getElementById("start-button").disabled = "true";
 		document.getElementById("end-button").disabled = "";
+
+		setTimeout(() => {
+			alert("1秒");
+		}, 1000);
 	};
 
 	const stop_measuring = (e) => {
