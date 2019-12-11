@@ -172,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		motionEvent.addEvent();
 		// ボタンは一度押されたら無効にする
 		e.target.disabled = true;
-		document.getElementById("start-button").disabled = true;
-		document.getElementById("end-button").disabled = false;
+		document.getElementById("start-button").disabled = "true";
+		document.getElementById("end-button").disabled = "";
 	};
 
 	const stop_measuring = (e) => {
