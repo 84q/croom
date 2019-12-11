@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		e.target.disabled = true;
 	}
 
-	const startButton = document.getElementById("permission-button")
+	const startButton = document.getElementById("start-button")
 	startButton.addEventListener('click', start, false)
 
 	const id = setInterval( () => {drawer.draw(orientationEvent.rotation, orientationEvent.ng_num); }, 100 );
