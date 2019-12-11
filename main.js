@@ -175,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById("start-button").disabled = "true";
 
 		setTimeout(() => {
-			alert("1秒");
 			document.getElementById("end-button").disabled = false;
 		}, 1000);
 	};
