@@ -7,7 +7,7 @@ class Drawer
 		this.context = canvas.getContext('2d');
 	}
 
-	draw(rotation, ng)
+	draw(rotation)
 	{
 		const RAD_TO_DEG = 180 / Math.PI;
 		let arc_start, arc_end;
@@ -46,7 +46,7 @@ class Drawer
 		this.context.font = "30px 'ＭＳ ゴシック'";
 		this.context.textAlign = "left";
 		this.context.textBaseline = "top";
-		this.context.fillText(ng, 10, 10);
+		this.context.fillText("あと" + (180 - Math.abs(Math.round(rotation))) + "度", 10, 10);
 	}
 }
 
@@ -59,6 +59,12 @@ class OrientationEvent
 		this.alpha_pre = 0;
 		this.ng_num = 0;
 		this.correction = 0;
+		this.start_rotation = 0;
+	}
+
+	setStart()
+	{
+		this.start_rotation = this.rotation;
 	}
 
 	addEventListener()
@@ -176,12 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		motionEvent.addEvent();
 		// ボタンは一度押されたら無効にする
 		e.target.disabled = true;
-		document.getElementById("start-button").disabled = "true";
+		document.getElementById("start-button").disabled = true;
 
 		setTimeout(() => {
+			orientationEvent.setStart();
 			start_rot = orientationEvent.rotation;
 			start_tiltx = motionEvent.tiltx;
 			start_tilty = motionEvent.tilty;
+			alert(start_tiltx);
 			document.getElementById("stop-button").disabled = false;
 		}, 1000);
 	};
@@ -199,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById("start-button").addEventListener('click', start_measuring, false)
 	document.getElementById("stop-button").addEventListener('click', stop_measuring, false)
 
-	const id = setInterval( () => {drawer.draw(orientationEvent.rotation, orientationEvent.ng_num); }, 100 );
+	const id = setInterval( () => {drawer.draw(orientationEvent.rotation); }, 100 );
 
 	window.addEventListener('click', e => {
 		orientationEvent.rotation += 10;
