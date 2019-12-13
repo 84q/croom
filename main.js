@@ -63,7 +63,8 @@ class OrientationEvent
 	addEventListener()
 	{
 		window.addEventListener('deviceorientation', (e) => {
-			if(!e.alpha) { e.alpha = 0; }
+			let alpha = e.alpha;
+			if(!alpha) { alpha = 0; }
 
 			//e.alpha += this.correction;
 			//const diff = Math.abs(e.alpha) - Math.abs(this.alpha_pre);
@@ -78,13 +79,13 @@ class OrientationEvent
 			//}
 			//this.alpha_pre = e.alhpa;
 
-			if(e.alpha >= 180)
+			if(alpha >= 180)
 			{
-				this.rotation = 360 - e.alpha;
+				this.rotation = 360 - alpha;
 			}
 			else
 			{
-				this.rotation = - e.alpha;
+				this.rotation = - alpha;
 			}
 
 			document.getElementById("rot").innerHTML = this.rotation;
