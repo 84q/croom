@@ -3,50 +3,18 @@ class Drawer
 {
 	constructor()
 	{
-		this.canvas = document.getElementById('canvas')
-		this.context = canvas.getContext('2d');
+		this.svg = document.getElementById('svg')
 	}
 
 	draw(rotation)
 	{
-		const RAD_TO_DEG = 180 / Math.PI;
-		let arc_start, arc_end;
-		if(rotation < 0)
-		{
-			arc_start = rotation - 90;
-			arc_end = -90;
-		}
-		else
-		{
-			arc_start = -90;
-			arc_end = rotation - 90;
-		}
-
-		document.getElementById("start").innerHTML = arc_start;
-		document.getElementById("end").innerHTML = arc_end;
-
-		this.context.clearRect(0, 0, canvas.width, canvas.height);
-		this.context.beginPath();
-
-		this.context.arc(110, 110, 100, arc_start/RAD_TO_DEG, arc_end/RAD_TO_DEG, false);
-
-		// 塗りつぶしの色
-		this.context.fillStyle = "rgba(0,0,0,0)";
-		// 塗りつぶしを実行
-		this.context.fill();
-		// 線の色
-		this.context.strokeStyle = "purple";
-		// 線の太さ
-		this.context.lineWidth = 8;
-		// 線を描画を実行
-		this.context.stroke();
-
-
-		this.context.fillStyle = "blue";
-		this.context.font = "30px 'ＭＳ ゴシック'";
-		this.context.textAlign = "left";
-		this.context.textBaseline = "top";
-		this.context.fillText("あと" + (180 - Math.abs(Math.round(rotation))) + "度", 10, 10);
+		const rounded = Math.round(rotation);
+		const disp_right_arrow = (rounded > 0);
+		const disp_left_arrow = (rounded < 0);
+		const left = 180 - Math.abs(rounded);
+		document.getElementById("deg-left").innerHTML = left + "°";
+		document.getElementById("arrow-r").style.display = (disp_right_arrow ? "inline" : "none");
+		document.getElementById("arrow-l").style.display = (disp_left_arrow  ? "inline" : "none");
 	}
 }
 
