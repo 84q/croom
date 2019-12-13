@@ -3,7 +3,6 @@ class Drawer
 {
 	constructor()
 	{
-		this.svg = document.getElementById('svg')
 	}
 
 	draw(rotation)
@@ -90,8 +89,8 @@ class MotionEvent
 	{
 		this.current_tiltx = 0;
 		this.current_tilty = 0;
-		this.start_tiltx = 0;
-		this.start_tilty = 0;
+		//this.start_tiltx = 0;
+		//this.start_tilty = 0;
 		this.stop_tiltx = 0;
 		this.stop_tilty = 0;
 	}
@@ -118,7 +117,7 @@ class MotionEvent
 	addEventListener()
 	{
 		window.addEventListener('devicemotion', (e) => {
-			//console.log(e);
+			if(!e.accelerationIncludingGravity.x) return;
 			const RAD_TO_DEG = 180 / Math.PI;
 			const x = e.accelerationIncludingGravity.x - e.acceleration.x;
 			const y = e.accelerationIncludingGravity.y - e.acceleration.y;
@@ -173,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const stop_measuring = (e) => {
 		motionEvent.setStop();
+		const rot = orientationEvent.rotation();
 		const {tiltx, tilty} = motionEvent.getTilt();
 		alert(" " + rot + "\n" + tiltx + "\n" + tilty);
 	};
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const id = setInterval( () => {drawer.draw(orientationEvent.rotation); }, 100 );
 
 	window.addEventListener('click', e => {
-		orientationEvent.rotation += 10;
+		orientationEvent.rotation += 30;
 		if(orientationEvent.rotation > 180) orientationEvent.rotation = -180;
 		document.getElementById("rot").innerHTML = orientationEvent.rotation;
 	});
