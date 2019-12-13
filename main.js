@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const stop_measuring = (e) => {
 		motionEvent.setStop();
-		const rot = orientationEvent.rotation();
+		const rot = orientationEvent.rotation;
 		const {tiltx, tilty} = motionEvent.getTilt();
 		alert(" " + rot + "\n" + tiltx + "\n" + tilty);
 	};
