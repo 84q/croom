@@ -10,8 +10,8 @@ class Drawer
 	{
 		const rounded = Math.round(rotation);
 		const left = 180 - Math.abs(rounded);
-		const disp_right_arrow = (rounded > 0);
-		const disp_left_arrow = (rounded < 0);
+		const disp_right_arrow = (left != 0) && (rounded >= 0);
+		const disp_left_arrow  = (left != 0) && (rounded <= 0);
 		document.getElementById("deg-left").innerHTML = left + "°";
 		document.getElementById("arrow-r").style.display = (disp_right_arrow ? "inline" : "none");
 		document.getElementById("arrow-l").style.display = (disp_left_arrow  ? "inline" : "none");
@@ -184,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	window.addEventListener('click', e => {
 		orientationEvent.rotation += 10;
+		if(orientationEvent.rotation > 180) orientationEvent.rotation = -180;
 		document.getElementById("rot").innerHTML = orientationEvent.rotation;
 	});
 });
