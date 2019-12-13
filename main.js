@@ -140,7 +140,7 @@ class MotionEvent
 	getTilt()
 	{
 		const tiltx = this.stop_tiltx - start_tiltx;
-		const tiltx = this.stop_tilty - start_tilty;
+		const tilty = this.stop_tilty - start_tilty;
 		return {tiltx, tilty};
 	}
 
