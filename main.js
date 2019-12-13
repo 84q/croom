@@ -88,6 +88,7 @@ class Tilt
 	{
 		this.rad = rad;
 		this.deg = this.toDeg(rad);
+		this.mmpm = Math.tan(rad) * 1000;
 	}
 
 	toDeg(rad)
@@ -139,8 +140,8 @@ class MotionEvent
 			const z = e.accelerationIncludingGravity.z - e.acceleration.z;
 			this.current_tiltx = new Tilt(Math.atan(x/z));
 			this.current_tilty = new Tilt(Math.atan(y/z));
-			document.getElementById("tiltx").innerHTML = (this.current_tiltx * RAD_TO_DEG)
-			document.getElementById("tilty").innerHTML = (this.current_tilty * RAD_TO_DEG)
+			document.getElementById("tiltx").innerHTML = this.current_tiltx.deg;
+			document.getElementById("tilty").innerHTML = this.current_tilty.deg;
 		});
 	}
 
@@ -167,7 +168,6 @@ class MotionEvent
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-	const RAD_TO_DEG = 180 / Math.PI;
 	const drawer = new Drawer();
 	const orientationEvent = new OrientationEvent();
 	const motionEvent = new MotionEvent();
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		motionEvent.setStop();
 		const rot = orientationEvent.rotation;
 		const {tiltx, tilty} = motionEvent.getTilt();
-		alert(" " + rot + "\n" + tiltx.deg + "\n" + tilty.deg);
+		alert(" " + rot + "\n" + tiltx.deg + "(" + tiltx.mmpm + ")" + "\n" + tilty.deg + "(" + tilty.mmpm + ")");
 	};
 
 	document.getElementById("start-button").addEventListener('click', start_measuring, false)
