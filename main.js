@@ -54,7 +54,6 @@ class OrientationEvent
 {
 	constructor()
 	{
-		this.n = 0;
 		this.rotation = 0;
 		this.alpha_pre = 0;
 		this.ng_num = 0;
@@ -64,8 +63,6 @@ class OrientationEvent
 	addEventListener()
 	{
 		window.addEventListener('deviceorientation', (e) => {
-			this.n += 1;
-			document.getElementById("num").innerHTML = this.n;
 			if(!e.alpha) { e.alpha = 0; }
 
 			//e.alpha += this.correction;
