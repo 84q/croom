@@ -12,7 +12,7 @@ class Drawer
 		const left = 180 - Math.abs(rounded);
 		const disp_right_arrow = (left != 0) && (rounded >= 0);
 		const disp_left_arrow  = (left != 0) && (rounded <= 0);
-		document.getElementById("deg-left").innerHTML = left + "°";
+		document.getElementById("deg-left").innerHTML = left + "\u{B0}";
 		document.getElementById("arrow-r").style.display = (disp_right_arrow ? "inline" : "none");
 		document.getElementById("arrow-l").style.display = (disp_left_arrow  ? "inline" : "none");
 		document.getElementById("rounded").innerHTML = rounded;
