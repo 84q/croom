@@ -1,4 +1,3 @@
-
 class Drawer
 {
 	constructor()
@@ -83,16 +82,32 @@ class OrientationEvent
 	}
 }
 
+class Tilt
+{
+	constructor(rad)
+	{
+		this.rad = rad;
+		this.deg = this.toDeg(rad);
+	}
+
+	toDeg(rad)
+	{
+		const RAD_TO_DEG = 180 / Math.PI;
+		return rad * RAD_TO_DEG;
+	}
+
+	ave(tilt2)
+	{
+		return new Tilt((this.rad + tilt2.rad) / 2);
+	}
+}
+
 class MotionEvent
 {
 	constructor()
 	{
-		this.current_tiltx = 0;
-		this.current_tilty = 0;
-		//this.start_tiltx = 0;
-		//this.start_tilty = 0;
-		this.stop_tiltx = 0;
-		this.stop_tilty = 0;
+		this.current_tiltx = new Tilt(0);
+		this.current_tilty = new Tilt(0);
 	}
 
 	setStart()
@@ -109,8 +124,8 @@ class MotionEvent
 
 	getTilt()
 	{
-		const tiltx = this.stop_tiltx - this.start_tiltx;
-		const tilty = this.stop_tilty - this.start_tilty;
+		const tiltx = this.stop_tiltx.ave(this.start_tiltx);
+		const tilty = this.stop_tilty.ave(this.start_tilty);
 		return {tiltx, tilty};
 	}
 
@@ -122,8 +137,8 @@ class MotionEvent
 			const x = e.accelerationIncludingGravity.x - e.acceleration.x;
 			const y = e.accelerationIncludingGravity.y - e.acceleration.y;
 			const z = e.accelerationIncludingGravity.z - e.acceleration.z;
-			this.current_tiltx = Math.atan(x/z);
-			this.current_tilty = Math.atan(y/z);
+			this.current_tiltx = new Tilt(Math.atan(x/z));
+			this.current_tilty = new Tilt(Math.atan(y/z));
 			document.getElementById("tiltx").innerHTML = (this.current_tiltx * RAD_TO_DEG)
 			document.getElementById("tilty").innerHTML = (this.current_tilty * RAD_TO_DEG)
 		});
@@ -174,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		motionEvent.setStop();
 		const rot = orientationEvent.rotation;
 		const {tiltx, tilty} = motionEvent.getTilt();
-		alert(" " + rot + "\n" + tiltx + "\n" + tilty);
+		alert(" " + rot + "\n" + tiltx.deg + "\n" + tilty.deg);
 	};
 
 	document.getElementById("start-button").addEventListener('click', start_measuring, false)
