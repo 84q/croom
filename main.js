@@ -9,12 +9,14 @@ class Drawer
 	draw(rotation)
 	{
 		const rounded = Math.round(rotation);
+		const left = 180 - Math.abs(rounded);
 		const disp_right_arrow = (rounded > 0);
 		const disp_left_arrow = (rounded < 0);
-		const left = 180 - Math.abs(rounded);
 		document.getElementById("deg-left").innerHTML = left + "°";
 		document.getElementById("arrow-r").style.display = (disp_right_arrow ? "inline" : "none");
 		document.getElementById("arrow-l").style.display = (disp_left_arrow  ? "inline" : "none");
+		document.getElementById("rounded").innerHTML = rounded;
+		document.getElementById("left").innerHTML = left;
 	}
 }
 
